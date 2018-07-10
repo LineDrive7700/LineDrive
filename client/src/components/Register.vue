@@ -7,7 +7,7 @@
             <v-card-text>
                 <v-form ref="form" v-model="valid" lazy-validation>
                     <v-text-field v-model="name" :rules="nameRules" :counter="30" label="Name" required></v-text-field>
-                    <v-text-field v-model="contact" label="Contact" :rules="contactRules" required></v-text-field>
+                    <v-text-field v-model="contact" mask="(###) ### - ####" label="Contact" :rules="contactRules" required></v-text-field>
                     <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
                     <v-text-field v-model="password" name="password" label="Password" type="password" required></v-text-field>
                     <v-select v-model="select" :items="items" :rules="selectRules" item-text="item" item-value="item" label="Select" return-item-value single-line></v-select>
@@ -15,11 +15,17 @@
                     </div>
                     <v-text-field v-model="answer" :rules="answerRules" label="Answer" required></v-text-field>
                     <v-text-field v-model="code" v-if="title==='Coach'" label="Authentication Code" required type="password"></v-text-field>
+                    <v-text-field v-if="title==='Member'" mask="#### - #### - #### - ####" v-model="creditcardnumber" :rules="cardnumberrules" label="Credit Card Number"></v-text-field>
+                    <v-text-field v-if="title==='Member'" mask="##/####" v-model="expirydate" :rules="expirydaterules" label="Expiry Date(MM/YYYY)"></v-text-field>
+                    <v-text-field v-if="title==='Member'" v-model="cardholdername" label="Name On Card"></v-text-field>
+                    <v-text-field v-if="title==='Member'" v-model="cardholderaddress" label="Billing Address"></v-text-field>
+                    <v-text-field v-if="title==='Member'" mask="#####" v-model="cardholderzipcode" label="Billing ZipCode"></v-text-field>
                     <div class="error" v-html="error"></div>
                     <div class="success" v-html="success"></div>
                     <v-checkbox v-model="checkbox" required :rules="[v => !!v || 'You must agree to continue!']" label="Do you agree?" required></v-checkbox>
                     <v-btn  v-if="title==='Coach'" class="blue darken-3" dark :disabled="!valid"  @click="registerCoach">Register Coach</v-btn>
                     <v-btn  v-if="title==='Member'" class="blue darken-3" dark :disabled="!valid"  @click="registerMember">Register Member</v-btn>
+                    <!-- <v-btn @click="auth('google')">Google</v-btn> -->
                     <v-btn class="blue darken-3" dark  @click="clear">Clear</v-btn><br>
                     <b-link v-if="title==='Coach'" href="#/loginCoach"><b>Already have an Account? Sign In</b></b-link>
                     <b-link v-if="title==='Member'" href="#/loginMember"><b>Already have an Account? Sign In</b></b-link>
@@ -51,6 +57,11 @@ export default {
         select: "",
         spacer:160,
         code: "",
+        creditcardnumber: "",
+        cardholdername: "",
+        cardholderaddress: "",
+        cardholderzipcode: "",
+        expirydate: "",
         selectRules: [
                 v => !!v || 'Please select a valid question to recover the password',
             ],
@@ -74,6 +85,12 @@ export default {
             {item: 'What is the name of your childhood friend'},
             {item: 'What is the name of your first crush?'},
             {item: 'What is the color of your car?'}
+        ],
+        // expirydaterules: [
+        //     v => /^\d{2}\/\d{4}$/.test(v) || 'date must be valid'
+        // ],
+        cardnumberrules: [
+            v=>(v.length===16) || 'Card Number must be 16 digits'
         ],
         checkbox: false
     }
@@ -131,6 +148,15 @@ export default {
               this.error = error.response.data.error;
           }
       },
+    //   auth(network) {
+    //       const hello = this.hello;
+    //       hello(network).login().then(()=>{
+    //           const authRes = hello(network).getAuthResponse();
+    //           hello(network).api('me').then(function (json){
+    //               const profile = json;
+    //           });
+    //       })
+    //   },
       
       clear () {
         this.$refs.form.reset()
