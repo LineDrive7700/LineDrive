@@ -7,6 +7,8 @@ import LoginMember from './../views/LoginMember'
 import LoginCoach from './../views/LoginCoach'
 import Profile from './../components/Profile'
 import ForgotPassCoach from './../views/ForgotPassCoach'
+import Calendar from '@/components/Calendar'
+import BookingCalendar from '@/components/BookingCalendar'
 Vue.use(Router)
 
 export default new Router({
@@ -50,6 +52,16 @@ export default new Router({
       path: '/registerMember',
       name: 'registerMember',
       component: RegisterMember
+    },
+    {
+      path: '/bookAvailability',
+      name: 'calendar',
+      component: Calendar
+    },
+    {
+      path: '/bookCoach',
+      name: 'BookingCalendar',
+      component: BookingCalendar
     }
   ]
 })

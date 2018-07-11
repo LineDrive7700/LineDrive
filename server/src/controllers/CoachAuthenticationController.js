@@ -135,6 +135,7 @@ module.exports = {
                 res.status(403).send({
                     error:"The update not occured"
                 })
+                return
             }
             const userJson = user.toJSON()
 

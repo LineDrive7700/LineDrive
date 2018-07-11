@@ -14,6 +14,7 @@
                     </div>
                     <v-text-field v-model="answer" :rules="answerRules" label="Answer" required></v-text-field>
                     <v-text-field v-model="password" name="password" label="Please Enter your Password to save the changes" type="password" required></v-text-field>
+                    <credit-card v-if="title==='Member'"></credit-card>
                     <div class="error" v-html="error"></div>
                     <div class="success" v-html="success"></div>
                     <v-checkbox v-model="checkbox" :rules="[v => !!v || 'You must agree to continue!']" label="Do you agree?" required></v-checkbox>
@@ -28,6 +29,7 @@
 import AuthenticationService from './../services/AuthenticationService'
 import Panel from '@/components/Panel'
 import UserProfile from "./../services/UserProfile"
+import CreditCard from "@/components/CreditCard"
 export default {
    name: 'Profile',
   data () {
@@ -72,7 +74,8 @@ export default {
     }
   },
   components:{
-      Panel
+      Panel,
+      CreditCard
   },
   methods:{
       async saveChanges(){
@@ -90,9 +93,9 @@ export default {
                 answer: this.answer,
                 checkbox: this.checkbox,
             })
+            alert("Updated")
             this.success= "You have successfully changed the details"+this.name;
-            this.$store.dispatch('setToken', response.data.token)
-            this.$store.dispatch('setUser',response.data.user)
+            
           }catch(error){
               this.error=error.response.data.error;
           }

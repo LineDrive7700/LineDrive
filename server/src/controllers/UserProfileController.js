@@ -3,10 +3,10 @@ const {User} = require('../models')
 module.exports = {
     
     async index(req,res){
-        console.log("Here at User body"+req.body)
+        console.log("Here at User body"+query.email)
         try{
-            console.log("Here at User body"+req.body)
-            const {email} = (req.body)
+            console.log("Here at User body"+query.email)
+            const {email} = (query.email)
             console.log("Here at User")
             const User= await User.find({
                 where:{

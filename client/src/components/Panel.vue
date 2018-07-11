@@ -2,7 +2,7 @@
     <div>
         <hr><br><br>
         <v-layout justify-center>
-            <v-flex xs5>
+            <v-flex>
                 <div class="white elevation-2">
                     <slot>
                     
@@ -19,7 +19,6 @@ import AuthenticationService from './../services/AuthenticationService'
 export default {
  props:[
      'title',
-     'flex'
  ]
 }
 </script>

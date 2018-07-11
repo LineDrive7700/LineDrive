@@ -7,7 +7,6 @@ const {sequelize} = require('./models')
 const config = require('./config/config')
 const app = express()
 const routes = express.Router()
-const route = require('./routes/coach.routes')
 
 //app.use('/', route);
 

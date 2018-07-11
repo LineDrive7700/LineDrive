@@ -13,6 +13,7 @@
                     <v-select v-model="select" :items="items" :rules="selectRules" item-text="item" item-value="item" label="Select" return-item-value single-line></v-select>
                     <div hidden><v-text-field v-model="select" name="question" label="Question" disabled hidden></v-text-field>
                     </div>
+                    
                     <v-text-field v-model="answer" :rules="answerRules" label="Answer" required></v-text-field>
                     <v-text-field v-model="code" v-if="title==='Coach'" label="Authentication Code" required type="password"></v-text-field>
                     <div class="error" v-html="error"></div>

@@ -38,6 +38,8 @@
               </template>
               <b-dropdown-item small>
                 <v-btn small @click="PROFILE">PROFILE</v-btn><br>
+                <v-btn small v-if="$store.state.user.role === 'Member' "@click="BookCoach">BOOK the Coach</v-btn><br v-if="$store.state.user.role === 'Member' ">
+                <v-btn small v-if="$store.state.user.role === 'Coach' "@click="AVAILABILITY">BOOK YOUR AVAILABILITY</v-btn><br v-if="$store.state.user.role === 'Coach' ">
                 <v-btn small @click="SIGNOUT">SIGNOUT</v-btn><br>
               </b-dropdown-item>
             </b-nav-item-dropdown>
@@ -53,6 +55,7 @@ export default {
   name: 'Header',
   data () {
     return {
+      spacer:160,
       Schedule: {
         "MEMBERS":"#/loginMember" ,
         "WALK-NS":"#/walk-ns",
@@ -89,7 +92,13 @@ export default {
             this.$store.dispatch('setUser',null)
         },
     PROFILE(){
-      this.$router.push('/profile')
+      this.$router.push('profile')
+    },
+    AVAILABILITY(){
+      this.$router.push('/bookavailability')
+    },
+    BookCoach(){
+      this.$router.push('/bookcoach')
     }
 
   },
