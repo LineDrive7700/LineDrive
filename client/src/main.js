@@ -29,7 +29,12 @@ sync(store, router)
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(BootstrapVue);
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyA76xdpzPbJ5AviqlJQyIwrhX_o-Gu5uBk",
+    libraries: "places" // necessary for places input
+  }
+});
 
 
 /* eslint-disable no-new */
