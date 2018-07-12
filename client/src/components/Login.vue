@@ -1,6 +1,6 @@
 <template>
     <Panel>
-        <slot>
+        <slot name="firstbox">
             <v-toolbar flat dense class="gray darken-3">
                 <v-toolbar-title>{{title}} Login</v-toolbar-title>
             </v-toolbar>
@@ -31,8 +31,8 @@ export default {
   data () {
     return {
         role: "",
-        email: "mx930@utdallas.edu",
-        password: "qwertyui",
+        email: "user1@gmail.com",
+        password: "12345678",
         error: null,
         success:""
     }

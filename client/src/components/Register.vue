@@ -16,17 +16,6 @@
                     
                     <v-text-field v-model="answer" :rules="answerRules" label="Answer" required></v-text-field>
                     <v-text-field v-model="code" v-if="title==='Coach'" label="Authentication Code" required type="password"></v-text-field>
-                    <v-btn v-if="!isHidden" class="blue darken-3" dark style='float: left;' v-on:click="isHidden=true">Add Credit Card</v-btn>
-                    <v-form v-if="isHidden">
-                    <v-text-field v-if="title==='Member'" mask="#### - #### - #### - ####" v-model="creditcardnumber" :rules="cardnumberrules" label="Credit Card Number"></v-text-field>
-                    <v-text-field v-if="title==='Member'" mask="##/####" v-model="expirydate" :rules="expirydaterules" label="Expiry Date(MM/YYYY)"></v-text-field>
-                    <v-text-field v-if="title==='Member'" v-model="cardholdername" label="Name On Card"></v-text-field>
-                    <v-text-field v-if="title==='Member'" v-model="cardholderaddress" label="Billing Address"></v-text-field>
-                    <v-text-field v-if="title==='Member'" mask="#####" v-model="cardholderzipcode" label="Billing ZipCode"></v-text-field>
-                    <v-btn class="blue darken-3" dark style='float: left;' v-on:click="isHidden=false">Save</v-btn> 
-                    <v-btn class="blue darken-3" dark style='float: left;' v-on:click="isHidden=false">Cancel</v-btn><br>
-                    </v-form>
-                    <br><br><br>
                     <div class="error" v-html="error"></div>
                     <div class="success" v-html="success"></div>
                     <v-checkbox v-model="checkbox" required :rules="[v => !!v || 'You must agree to continue!']" label="Do you agree?" required></v-checkbox>
@@ -95,12 +84,6 @@ export default {
         { item: "What is the name of your childhood friend" },
         { item: "What is the name of your first crush?" },
         { item: "What is the color of your car?" }
-      ],
-      // expirydaterules: [
-      //     v => /^\d{2}\/\d{4}$/.test(v) || 'date must be valid'
-      // ],
-      cardnumberrules: [
-        v => v.length === 16 || "Card Number must be 16 digits"
       ],
       checkbox: false
     };
@@ -173,7 +156,6 @@ export default {
     //           });
     //       })
     //   },
-
     clear() {
       this.$refs.form.reset();
     }
