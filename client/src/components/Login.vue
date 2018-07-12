@@ -1,6 +1,6 @@
 <template>
     <Panel>
-        <slot name="firstbox">
+        <slot>
             <v-toolbar flat dense class="gray darken-3">
                 <v-toolbar-title>{{title}} Login</v-toolbar-title>
             </v-toolbar>
@@ -31,8 +31,8 @@ export default {
   data () {
     return {
         role: "",
-        email: "user1@gmail.com",
-        password: "12345678",
+        email: "mx930@utdallas.edu",
+        password: "qwertyui",
         error: null,
         success:""
     }
@@ -54,9 +54,9 @@ export default {
                     role: this.title
                 })
                 this.success= "You have successfully logged-in.";
-                this.$router.push('/profile')
                 this.$store.dispatch('setToken', response.data.token)
                 this.$store.dispatch('setUser',response.data.user)
+                this.$router.push({name :'Profile',params :{id : this.$store.state.user.email }})
                 console.log('Token transferred')
 
           }catch(error){
@@ -72,9 +72,9 @@ export default {
                     password: this.password
                 })
                 this.success= "You have successfully logged-in.";
-                this.$router.push('/profile')
                 this.$store.dispatch('setToken', response.data.token)
                 this.$store.dispatch('setUser',response.data.user)
+                this.$router.push({name :'Profile',params :{id : this.$store.state.user.email }})
                 console.log('Token transferred')
 
           }catch(error){

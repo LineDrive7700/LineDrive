@@ -4,6 +4,7 @@
       <b-row>
         <b-col>
           <b-row><img src="./../assets/img/linedrive.png" alt="linedrivelogo"></b-row>
+          <b-row>LINE DRIVE</b-row>
           <b-row>210 Central Expressway S.</b-row>
           <b-row>Suite 60</b-row>
           <b-row>Allen, Tx 75013</b-row>
@@ -31,7 +32,11 @@
           <b-row><b-link href="home"><b>Press</b></b-link></b-row>
         </b-col>
         <b-col>
-          <google-map />
+          <b-row></b-row>
+          <b-row>LINE DRIVE</b-row>
+          <b-row>210 Central Expressway S.</b-row>
+          <b-row>Suite 60</b-row>
+          <b-row>Allen, Tx 75013</b-row>
         </b-col>
       </b-row>
     </b-container>
@@ -40,12 +45,8 @@
 </template>
 
 <script>
-import GoogleMap from "./GoogleMap";
 export default {
   name: 'Footer',
-  components: {
-    GoogleMap
-  },
   data () {
     return {
     }

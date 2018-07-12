@@ -13,6 +13,8 @@ const CoachAvailabilityAuthenticationControllerPolicy = require('./policies/Coac
 const LocationController = require('./controllers/LocationController')
 const SlotsController = require('./controllers/SlotsController')
 
+const CreditCardController = require('./controllers/CreditCardController')
+
 
 module.exports = (app) =>{
     app.post('/registerCoach',
@@ -47,6 +49,7 @@ module.exports = (app) =>{
     MemberAuthenticationController.registerMember),
 
     app.get('/bookAvailability/',
+    //CoachAvailabilityAuthenticationControllerPolicy.viewSlot,
     CoachAvailabilityController.index),
 
     app.post('/bookAvailability',
@@ -66,4 +69,6 @@ module.exports = (app) =>{
     app.post('/slotsAvailability',
     SlotsController.post)
     
+    app.post('/saveCreditCard',
+    CreditCardController.post)
 }

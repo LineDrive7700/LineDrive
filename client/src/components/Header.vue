@@ -92,7 +92,7 @@ export default {
             this.$store.dispatch('setUser',null)
         },
     PROFILE(){
-      this.$router.push('profile')
+      this.$router.push({name :'Profile',params :{id : this.$store.state.user.email }})
     },
     AVAILABILITY(){
       this.$router.push('/bookavailability')

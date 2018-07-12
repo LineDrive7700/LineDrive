@@ -5,10 +5,10 @@ module.exports = {
     async index(req,res){
        
         try{
-            console.log("Here at User body")
-            
+            email: req.query.email
+            selectDate: req.query.selectDate
+            locationId: req.query.selectLocation
             const slots= await Slots.findAll({
-                
             })
             res.send(slots)
         }

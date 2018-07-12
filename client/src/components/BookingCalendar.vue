@@ -7,12 +7,14 @@
 
 			<h4> Hello Mr. {{this.$store.state.user.name}} </h4>
 			<h5> Please select the date, slots and coach </h5>
-			<v-date-picker ref="selectDate" v-model="selectDate" full-width></v-date-picker>
 			<v-select v-model="selectLocation" :items="items" item-text="Location" item-value="id" label="Select the location" return-item-value single-line></v-select>
 			<div hidden><v-text-field v-model="selectLocation" name="location" label="Location" disabled hidden></v-text-field>
 			</div>
-			<v-layout>
-				<v-flex>
+			<v-layout v-if="selectLocation">
+				<v-flex xs5>
+						<v-date-picker ref="selectDate" v-model="selectDate" full-width></v-date-picker>
+				</v-flex>
+				<v-flex xs8>
 					<v-btn class="blue darken-3" dark  @click="viewSelected">View Booked Availability</v-btn>
 					<div v-if="hiddenAdd">
 						<v-data-table :headers="headers" :items="slots" :search="search" v-model="selected" item-key="id" select-all class="elevation-1">
@@ -25,10 +27,10 @@
 									{{ props.header.text }}
 									</span>
 								</v-tooltip>
-								</template>
-								<template slot="items" slot-scope="props">
+							</template>
+							<template slot="items" v-if="!props.item.booked_status" slot-scope="props">
 								<td>
-									<v-checkbox	v-model="props.selected" primary></v-checkbox>
+									<v-checkbox	v-if="!props.item.booked_status" :disabled="props.item.booked_status" v-model="props.selected" primary></v-checkbox>
 								</td>
 								<td class="text-xs-left">{{ props.item.selectDate }}</td>
 								<td class="text-xs-left">{{ items[props.item.locationId-1].Location }}</td>
@@ -37,8 +39,7 @@
 							</template>
 						</v-data-table>
 						<v-btn class="blue darken-3" dark  @click="SelectCage">Add the Slots</v-btn>
-					</div>
-					
+					</div>		
 				</v-flex>
 			</v-layout>
 			<div class="error" v-html="error"></div>
@@ -149,7 +150,7 @@ export default {
 	  },
 	  async SelectCage(){
           try{
-			  console.log("hi "+ this.selectAvailability+" "+this.selectDate+ " "+this.selectLocation+ " "+this.$store.state.user.email)
+			  console.log("hi "+ this.selected+" "+this.selectDate+ " "+this.selectLocation+ " "+this.$store.state.user.email)
               this.error=null;
               this.success=null;    
               //alert(this.title+ " Hi")       

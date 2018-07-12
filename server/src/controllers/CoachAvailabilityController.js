@@ -1,19 +1,20 @@
 const {CoachAvailability} = require('../models')
+const {CageAvailability} = require('../models')
 const {User} = require('../models')
 
 module.exports = {
     
     async index(req,res){
         try{
-            console.log(req.query)
             var {email,locationId,selectDate} = (req.query)
+            console.log(typeof(locationId)+"*****************")
             var dates=[]
             var x=""
             if(locationId&&email&&selectDate){
                 dates = await CoachAvailability.findAll({
                     where:{
-                        locationId:locationId,
                         email:email,
+                        locationId:locationId,
                         selectDate:selectDate
                     }
                 })
@@ -34,39 +35,11 @@ module.exports = {
                     }
                 })
             }
-            else if(selectDate && email){
-                dates= await CoachAvailability.findAll({
-                    where:{
-                        selectDate:selectDate,
-                        email:email
-                    }
-                })
-            }
-            else if(locationId){
+            else{
                 dates= await CoachAvailability.findAll({
                     where:{
                         locationId:locationId
                     }
-                })
-            }
-            else if(email){
-                dates = await CoachAvailability.findAll({
-                    where:{
-                        email:email,
-                    }
-                })
-                console.log("NULL Email *  "+email+" See "+locationId+" "+selectDate)
-            }
-            else if(selectDate){
-                dates = await CoachAvailability.findAll({
-                    where:{
-                        selectDate:selectDate,
-                    }
-                })
-                console.log("NULL Email *  "+email+" See "+locationId+" "+selectDate)
-            }
-            else{
-                dates= await CoachAvailability.findAll({
                 })
             }
             res.send(dates)
@@ -107,7 +80,6 @@ module.exports = {
                 const isAvailable = await CoachAvailability.findOne({
                     where:{
                         email:email,
-                        locationId:locationId,
                         selectDate:selectDate,
                         slotsId:Avai[Slots]-1
                     }

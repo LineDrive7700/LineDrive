@@ -7,39 +7,46 @@
 
 			<h4> Hello Mr. {{this.$store.state.user.name}} </h4>
 			<h5> Please select the date and slots when you are available for coaching </h5>
-			<v-date-picker ref="selectDate" v-model="selectDate" full-width></v-date-picker>
 			<v-select v-model="selectLocation" :items="items" item-text="Location" item-value="id" label="Select the location" return-item-value single-line></v-select>
 			<div hidden><v-text-field v-model="selectLocation" name="location" label="Location" disabled hidden></v-text-field>
 			</div>
-			<v-layout>
-				<v-flex xs6>
-					<v-btn class="blue darken-3" dark  @click="viewSelected">View Booked Availability</v-btn>
-					<div v-if="hiddenDelete">
-					<v-data-table :headers="headers" :items="slots" :search="search" v-model="selected" item-key="id" select-all class="elevation-1">
-						<template slot="items" slot-scope="props">
-							<v-tooltip bottom>
-								<span slot="activator">
-								{{ props.header.text }}
-								</span>
-								<span>
-								{{ props.header.text }}
-								</span>
-							</v-tooltip>
-						</template>
-						<template slot="items" slot-scope="props">
-							<td>
-								<v-checkbox	v-model="props.selected" primary></v-checkbox>
-							</td>
-							<td class="text-xs-left">{{ items[props.item.locationId-1].Location }}</td>
-							<td class="text-xs-left">{{ availableSlot[props.item.slotsId].Slots }}</td>
-						</template>
-  					</v-data-table>
-					<v-btn class="blue darken-3" dark  @click="removeSelected">Remove the Availability</v-btn>
-					</div>
+			<v-layout v-if="selectLocation">
+				<v-flex xs4>
+					<v-date-picker ref="selectDate" v-model="selectDate" full-width></v-date-picker>
 				</v-flex>
-				<v-flex xs6>
-					<v-btn class="blue darken-3" dark  @click="bookSelected">Book the Availability</v-btn>
-					<v-select :items="availableSlot" item-text="Slots" item-value="SlotsId" v-model="selectAvailability" label="Select your availability" multiple chips></v-select>
+				<v-flex xs8>
+					<v-layout>
+						<v-flex xs6>
+							<v-btn class="blue darken-3" dark  @click="viewSelected">View Booked Availability</v-btn>
+							<div v-if="hiddenDelete">
+								<h4> Current Availability</h4>
+								<v-data-table :headers="headers" :items="slots" :search="search" v-model="selected" item-key="id" select-all class="elevation-1">
+									<template slot="items" slot-scope="props">
+										<v-tooltip bottom>
+											<span slot="activator">
+											{{ props.header.text }}
+											</span>
+											<span>
+											{{ props.header.text }}
+											</span>
+										</v-tooltip>
+									</template>
+									<template slot="items" :disabled="props.item.booked_status" slot-scope="props">
+										<td>
+											<v-checkbox  :disabled="props.item.booked_status" v-model="props.selected" primary></v-checkbox>
+										</td>
+										<td class="text-xs-left">{{ props.item.selectDate }}</td>
+										<td class="text-xs-left">{{ availableSlot[props.item.slotsId].Slots }}</td>
+									</template>
+								</v-data-table>
+								<v-btn class="blue darken-3" dark  @click="removeSelected">Remove the Availability</v-btn>
+							</div>
+						</v-flex>
+						<v-flex xs6>
+							<v-btn class="blue darken-3" dark  @click="bookSelected">Book Timings</v-btn>
+							<v-select :items="availableSlot" item-text="Slots" item-value="SlotsId" v-model="selectAvailability" label="Select your availability" multiple chips></v-select>
+						</v-flex>
+					</v-layout>
 				</v-flex>
 			</v-layout>
 			<div class="error" v-html="error"></div>
@@ -71,7 +78,7 @@ export default {
 			search: '',
         	selected: [],
 			headers: [
-				{ text: 'Location', value: 'locationId' },
+				{ text: 'Date', value: 'selectDate' },
 				{ text: 'Slots', value: 'slotsId' }
 				],
 			/* Show the current month, and give it some fake events to show */
@@ -81,7 +88,7 @@ export default {
 			slots: null,
 			error: null,
 			success: null,
-			selectLocation: "",
+			selectLocation: null,
 			email:"",
 			location:"",
 			items: [],
@@ -96,7 +103,6 @@ export default {
 	async mounted() {
 		this.items = (await LocationService.index()).data,
 		this.availableSlot = (await Slotsservice.index()).data
-		alert("Mounted")
 	},
 	
 	
@@ -182,39 +188,10 @@ body {
 	margin-right: auto;
 }
 
-.calendar-controls {
-	margin-right: 1rem;
-	min-width: 14rem;
-	max-width: 14rem;
+.disabled{
+	color:black;
+	background-color: black;
 }
 
-.calendar-parent {
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
-	overflow-x: hidden;
-	overflow-y: hidden;
-	max-height: 80vh;
-	background-color: white;
-}
 
-/* For long calendars, ensure each week gets sufficient height. The body of the calendar will scroll if needed */
-.cv-wrapper.period-month.periodCount-2 .cv-week,
-.cv-wrapper.period-month.periodCount-3 .cv-week,
-.cv-wrapper.period-year .cv-week {
-	min-height: 6rem;
-}
-
-/* These styles are optional, to illustrate the flexbility of styling the calendar purely with CSS. */
-
-/* Add some styling for events tagged with the "birthday" class */
-.calendar .event.birthday {
-	background-color: #e0f0e0;
-	border-color: #d7e7d7;
-}
-
-.calendar .event.birthday::before {
-	content: "\1F382";
-	margin-right: 0.5em;
-}
 </style>

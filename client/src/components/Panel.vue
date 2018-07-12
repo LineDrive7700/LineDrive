@@ -1,37 +1,17 @@
 <template>
-   <div class="panel">
-        <br><br>
+    <div>
+        <hr><br><br>
         <v-layout justify-center>
             <v-flex>
                 <div class="white elevation-2">
-                     <slot>
-                    </slot>
-                </div>
-            </v-flex>
-        </v-layout>
-        <br><br>
-        <v-layout justify-center>
-            <v-flex>
-                <div class="white elevation-2">
-                    <slot name="secondForm">
+                    <slot>
                     
                     </slot>
                 </div>
             </v-flex>
         </v-layout>
         <br><br><hr>
-        <br><br>
-        <v-layout justify-center>
-            <v-flex>
-                <div class="white elevation-2">
-                    <slot name="thirdForm">
-                    
-                    </slot>
-                </div>
-            </v-flex>
-        </v-layout>
-        <br><br><hr>
-   </div>
+    </div>
 </template>
 
 <script>

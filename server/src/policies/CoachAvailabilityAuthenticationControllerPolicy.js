@@ -6,7 +6,7 @@ module.exports = {
         const schema = {
             email: Joi.string().email(),
             selectDate: Joi.date(),
-            locationId: Joi.number().min(1).max(5),
+            locationId: Joi.number().min(1).max(5).required(),
             selectAvailability: Joi.array().items(Joi.number().min(1).max(32))
         }
         const{error, value} = Joi.validate(req.body,schema)
