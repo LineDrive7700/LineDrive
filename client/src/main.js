@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -14,13 +12,27 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import * as VueGoogleMaps from "vue2-google-maps";
 import store from '@/store/store'
+// const HelloJs = require('hellojs/dist/hello.all.min.js');
+// const VueHello = require('vue-hellojs');
+
+// HelloJs.init({
+//   google: GOOGLE_APP_id,
+// },{
+//     redirect_uri: 'authcallback/'
+// });
+//  Vue.use(VueHello, HelloJs);
 
 sync(store, router)
 
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(BootstrapVue);
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyA76xdpzPbJ5AviqlJQyIwrhX_o-Gu5uBk",
+    libraries: "places" // necessary for places input
+  }
+});
 
 
 /* eslint-disable no-new */
