@@ -56,6 +56,7 @@ export default {
                 this.success= "You have successfully logged-in.";
                 this.$store.dispatch('setToken', response.data.token)
                 this.$store.dispatch('setUser',response.data.user)
+                console.log(response.data.user+" "+response.data.user.name)
                 this.$router.push({name :'Profile',params :{id : this.$store.state.user.email }})
                 console.log('Token transferred')
 

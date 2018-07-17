@@ -58,7 +58,7 @@ export default {
       spacer:160,
       Schedule: {
         "MEMBERS":"#/loginMember" ,
-        "WALK-NS":"#/walk-ns",
+        "WALK-NS":"#/bookCage",
         "COACHES":"#/loginCoach",
       },
       AboutUS:{

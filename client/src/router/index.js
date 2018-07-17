@@ -9,6 +9,7 @@ import Profile from './../components/Profile'
 import ForgotPassCoach from './../views/ForgotPassCoach'
 import Calendar from '@/components/Calendar'
 import BookingCalendar from '@/components/BookingCalendar'
+import BookingCage from '@/components/BookingCage'
 Vue.use(Router)
 
 export default new Router({
@@ -62,6 +63,11 @@ export default new Router({
       path: '/bookCoach',
       name: 'BookingCalendar',
       component: BookingCalendar
+    },
+    {
+      path: '/bookCage',
+      name: 'BookingCage',
+      component: BookingCage
     }
   ]
 })

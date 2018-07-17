@@ -9,13 +9,6 @@ export default new Vuex.Store({
         token: null,
         user: {},
         isUserLoggedIn: false,
-        name: null,
-        email: null,
-        contact: null,
-        password: null,
-        answer: null,
-        question: null,
-        role: null
     },
     mutations: {
         setToken(state,token){
@@ -28,12 +21,6 @@ export default new Vuex.Store({
         },
         setUser(state,user){
             state.user = user;
-            state.user.name = user.name;
-            state.user.email = user.email;
-            state.user.contact = user.contact;
-            state.user.answer= user.answer;
-            state.user.select = user.select;
-            state.user.role= user.role;
             
         },
         getUser() {

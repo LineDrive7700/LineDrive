@@ -5,15 +5,10 @@ module.exports = (sequelize, DataTypes) =>{
             type:DataTypes.STRING,
             required: true
         },
-        CoachId : {
-            type:DataTypes.STRING,
-            required: true
-        },
        selectDate: DataTypes.STRING,
        locationId: DataTypes.INTEGER,
        slotsId: DataTypes.INTEGER,
        CageId: DataTypes.INTEGER,
-       booked_status: DataTypes.BOOLEAN,
        
     })
 

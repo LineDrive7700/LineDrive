@@ -1,6 +1,6 @@
 <template>
   <div>
-    <forgotPassCoach-final title="Coach"></forgotPassCoach-final>
+    <forgotPassCoach-final title="Member"></forgotPassCoach-final>
     <router-view/>
   </div>
 </template>

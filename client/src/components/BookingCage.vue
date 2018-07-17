@@ -2,46 +2,37 @@
 	<Panel>
         <slot>
             <v-toolbar flat dense class="gray darken-3">
-                <v-toolbar-title>Book the Coach</v-toolbar-title>
+                <v-toolbar-title>Book the Cage</v-toolbar-title>
             </v-toolbar>
 
-			<h4> Hello Mr. {{this.$store.state.user.name}} </h4>
+			<h4> Hello  </h4>
 			<h5> Please select the date, slots and coach </h5>
+			<v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
 			<v-select v-model="selectLocation" :items="items" item-text="Location" item-value="id" label="Select the location" return-item-value single-line></v-select>
 			<div hidden><v-text-field v-model="selectLocation" name="location" label="Location" disabled hidden></v-text-field>
 			</div>
-			<v-layout v-if="selectLocation">
-				<v-flex xs5>
-						<v-date-picker ref="selectDate" v-model="selectDate" full-width></v-date-picker>
-				</v-flex>
-				<v-flex xs8>
-					<v-btn class="blue darken-3" dark  @click="viewSelected">View Booked Availability</v-btn>
-					<div v-if="hiddenAdd">
-						<v-data-table :headers="headers" :items="slots" :search="search" v-model="selected" item-key="id" select-all class="elevation-1">
+			<v-date-picker v-if="selectLocation&&!selectDate" ref="selectDate" required v-model="selectDate" full-width></v-date-picker>
+			<v-text-field v-if="selectLocation&&selectDate" v-model="selectDate" onc label="Date" hint="MM/DD/YYYY format"
+            persistent-hint type="date"></v-text-field>
+			<v-layout v-if="selectLocation&&selectDate">
+				<v-flex xs12>
+					<v-btn class="blue darken-3" dark  @click="viewSelected">View Availability</v-btn>
+					<div >
+						<v-data-table :headers="headers" :items="slots" :search="search" v-model="selected" item-key="SlotsId" select-all class="elevation-1">
 							<template slot="items" slot-scope="props">
-								<v-tooltip bottom>
-									<span slot="activator">
-									{{ props.header.text }}
-									</span>
-									<span>
-									{{ props.header.text }}
-									</span>
-								</v-tooltip>
-							</template>
-							<template slot="items" v-if="!props.item.booked_status" slot-scope="props">
 								<td>
-									<v-checkbox	v-if="!props.item.booked_status" :disabled="props.item.booked_status" v-model="props.selected" primary></v-checkbox>
+									<v-checkbox v-model="props.selected" primary></v-checkbox>
 								</td>
-								<td class="text-xs-left">{{ props.item.selectDate }}</td>
-								<td class="text-xs-left">{{ items[props.item.locationId-1].Location }}</td>
-								<td class="text-xs-left">{{ props.item.email }}</td>
-								<td class="text-xs-left">{{ availableSlots[props.item.slotsId].Slots }}</td>
+								<td class="text-xs-left">{{ props.item.SlotsId }}</td>
+								<td class="text-xs-left">{{ availableSlots[props.item.SlotsId].Slots }}</td>
 							</template>
 						</v-data-table>
 						<v-btn class="blue darken-3" dark  @click="SelectCage">Add the Slots</v-btn>
-					</div>		
+					</div>	
 				</v-flex>
 			</v-layout>
+						
+			
 			<div class="error" v-html="error"></div>
             <div class="success" v-html="success"></div>
         </slot>
@@ -50,8 +41,8 @@
 <script>
 import Panel from '@/components/Panel'
 import SelectedDates from './../services/SelectedDates'
+import SelectedDateSlot from './../services/SelectedDateSlot'
 import LocationService from './../services/LocationService'
-import BookCoach from './../services/BookCoach'
 import CalendarView from "vue-simple-calendar"
 import CalendarMathMixin from "vue-simple-calendar/dist/calendar-math-mixin.js"
 import Slotsservice from './../services/SlotsService'
@@ -80,13 +71,11 @@ export default {
         	selected: [],
 			headers: [
           {
-            text: 'Date',
+            text: 'SlotsId',
             align: 'left',
-            sortable: false,
-            value: 'selectDate'
+            sortable: true,
+            value: 'SlotsId'
 		  },
-		  { text: 'Location', value: 'locationId' },
-          { text: 'Coach', value: 'email' },
           { text: 'Slots', value: 'slotsId' }
         ],
 			/* Show the current month, and give it some fake events to show */
@@ -96,31 +85,43 @@ export default {
 			error: null,
 			success: null,
 			selectLocation: "",
-			email:"",
+			email:"a@a.co",
 			location:"",
 			items: [],
 			availableSlots: [],	
+			CageId: 1 ,
+			emailRules: [
+            v => !!v || 'E-mail is required',
+            v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+        ],
 		}
 	},
 	computed: {
 		
 	},
+
+	watch: {
+    value(value) {
+        this.$emit('onchange', value);
+        // or generate/simulate a native events (not sure how, but its outside Vue's realm I think
+    }
+	},
 	
 	async mounted() {
 		this.items = (await LocationService.index()).data
 		this.availableSlots = (await Slotsservice.index()).data
-        alert(this.items)
     },
 
 	methods: {
 		async viewSelected(){
           try{
-			  console.log("hi "+ this.selectAvailability+" "+this.selectDate+ " "+this.selectLocation+ " "+this.$store.state.user.email)
+			  console.log("hi "+" "+this.selectDate+ " "+this.selectLocation)
               this.error=null;
               this.success=null;    
               //alert(this.title+ " Hi")       
-            this.slots = (await SelectedDates.index({
+            this.slots = (await SelectedDateSlot.index({
 				//email: this.$store.state.user.email,
+				CageId: this.CageId,
 				selectDate: this.selectDate,
 				locationId: this.selectLocation,
 			}	
@@ -133,18 +134,18 @@ export default {
 	  },
 	  async SelectCage(){
           try{
-			  console.log("hi "+ this.selected+" "+this.selectDate+ " "+this.selectLocation+ " "+this.$store.state.user.email)
+			  console.log("hi "+ this.selected+" "+this.selectDate+ " "+this.selectLocation)
               this.error=null;
-              this.success=null;    
-              alert(" Hi")       
-            const response = await BookCoach.post({
-				email: this.$store.state.user.email,
+              this.success=null;         
+            const response = await SelectedDateSlot.post({
+				email: this.email,
 				selectDate: this.selectDate,
-				location: this.selectLocation,
-				selected: this.selected
+				locationId: this.selectLocation,
+				selected:this.selected,
+				CageId: this.CageId
 			})
 			this.success = "Booked the slots"
-			this.$router.push('/bookCage')
+			
           }catch(error){
               this.error = error.response.data.error;
           }

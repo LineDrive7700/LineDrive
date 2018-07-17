@@ -1,6 +1,9 @@
 <template>
     <Panel title="Forgot Password">
         <slot>
+            <v-toolbar flat dense class="gray darken-3">
+                <v-toolbar-title>{{title}} Forgot Password</v-toolbar-title>
+            </v-toolbar>
             <v-card-text>
                 <v-form ref="form" v-model="valid" lazy-validation>
                     <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
@@ -10,7 +13,7 @@
                     <v-text-field v-model="password" name="password" label="Enter New Password" type="password"></v-text-field>
                     <div class="error" v-html="error"></div>
                     <div class="success" v-html="success"></div>
-                    <v-btn class="blue darken-3" dark :disabled="!valid"  @click="forgotPassCoach">Change Password</v-btn><br>
+                    <v-btn class="blue darken-3" dark :disabled="!valid"  @click="forgotPass">Change Password</v-btn><br>
                     <b-link href="#/loginCoach"><b>Already have an account? Sign In</b></b-link>
                 </v-form>
             </v-card-text>
@@ -51,11 +54,11 @@ export default {
         }
     },
     methods:{
-      async forgotPassCoach(){
+      async forgotPass(){
           try{
               this.error=null;
               this.success=null;            
-            const response = await AuthenticationService.forgotPassCoach({
+            const response = await AuthenticationService.forgotPass({
                 email: this.email,
                 password: this.password,
                 select: this.select,

@@ -1,3 +1,6 @@
+var express = require('express');
+var router = express.Router();
+
 const CoachAuthenticationController = require('./controllers/CoachAuthenticationController')
 const CoachAuthenticationControllerPolicy = require('./policies/CoachAuthenticationControllerPolicy')
 
@@ -9,66 +12,76 @@ const UserProfileController = require('./controllers/UserProfileController')
 const CoachAvailabilityController = require('./controllers/CoachAvailabilityController')
 const CoachAvailabilityAuthenticationControllerPolicy = require('./policies/CoachAvailabilityAuthenticationControllerPolicy')
 
+const CageAvailabilityController = require('./controllers/CageAvailabilityController')
+
+const CoachBookingController = require('./controllers/CoachBookingController')
 
 const LocationController = require('./controllers/LocationController')
 const SlotsController = require('./controllers/SlotsController')
 
-const CreditCardController = require('./controllers/CreditCardController')
 
 
-module.exports = (app) =>{
-    app.post('/registerCoach',
-    CoachAuthenticationControllerPolicy.registerCoach,
-    CoachAuthenticationController.registerCoach),
+    router.post('/registerCoach',
+        CoachAuthenticationControllerPolicy.registerCoach,
+        CoachAuthenticationController.registerCoach
+     );
 
-    app.post('/loginCoach',
-    CoachAuthenticationControllerPolicy.loginCoach,
-    CoachAuthenticationController.loginCoach),
+     router.post('/loginCoach',
+        CoachAuthenticationControllerPolicy.loginCoach,
+        CoachAuthenticationController.loginCoach
+     );
 
-    app.post('/forgotPassCoach',
+    router.post('/forgotPassCoach',
     CoachAuthenticationControllerPolicy.forgotPassCoach,
-    CoachAuthenticationController.forgotPassCoach),
+    CoachAuthenticationController.forgotPassCoach)
 
-    app.get('/profile/',
-    UserProfileController.index),
+    router.get('/profile/',
+    UserProfileController.index)
 
-    app.post('/profile',
+    router.post('/profile',
     CoachAuthenticationControllerPolicy.profile,
-    CoachAuthenticationController.profile),
+    CoachAuthenticationController.profile)
 
-    app.post('/loginMember',
+    router.post('/loginMember',
     MemberAuthenticationControllerPolicy.loginMember,
-    MemberAuthenticationController.loginMember),
+    MemberAuthenticationController.loginMember)
 
-    app.post('/loginMember',
+    router.post('/loginMember',
     MemberAuthenticationControllerPolicy.loginMember,
-    MemberAuthenticationController.loginMember),
+    MemberAuthenticationController.loginMember)
 
-    app.post('/registerMember',
+    router.post('/registerMember',
     MemberAuthenticationControllerPolicy.registerMember,
-    MemberAuthenticationController.registerMember),
+    MemberAuthenticationController.registerMember)
 
-    app.get('/bookAvailability/',
+    router.get('/bookAvailability/',
     //CoachAvailabilityAuthenticationControllerPolicy.viewSlot,
-    CoachAvailabilityController.index),
+    CoachAvailabilityController.index)
 
-    app.post('/bookAvailability',
+    router.post('/bookAvailability',
     CoachAvailabilityAuthenticationControllerPolicy.bookSlot,
-    CoachAvailabilityController.post),
+    CoachAvailabilityController.post)
 
-    app.delete('/bookAvailability',
+    router.delete('/bookAvailability',
     //CoachAvailabilityAuthenticationControllerPolicy.bookSlot,
-    CoachAvailabilityController.delete),
+    CoachAvailabilityController.delete)
 
-    app.get('/locationAvailability',
+    router.get('/locationAvailability',
     LocationController.index)
 
-    app.get('/slotsAvailability',
+    router.get('/slotsAvailability',
     SlotsController.index)
 
-    app.post('/slotsAvailability',
+    router.post('/slotsAvailability',
     SlotsController.post)
+
+    router.get('/bookCage/',
+    CageAvailabilityController.index)
+
+    router.post('/bookCage',
+    CageAvailabilityController.post)
+
+    router.post('/bookCoach',
+    CoachBookingController.post)
     
-    app.post('/saveCreditCard',
-    CreditCardController.post)
-}
+    module.exports = router;

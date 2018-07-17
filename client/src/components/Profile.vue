@@ -1,8 +1,13 @@
 <template>
-    <Panel>
-        <slot>
+<Panel>
+    <div>
             <v-toolbar flat dense class="gray darken-3">
                 <v-toolbar-title>{{title}} Profile</v-toolbar-title>
+                 <v-spacer></v-spacer>
+                 <v-btn dense flat v-on:click="toHide=true" :disabled="toHide">
+                    <v-icon v-if="!toHide">edit</v-icon>
+                </v-btn>
+                
             </v-toolbar>
             <v-card-text>
                 <v-form ref="form" v-model="valid" lazy-validation>
@@ -13,15 +18,18 @@
                     <div hidden><v-text-field v-model="select" name="question" label="Question" disabled hidden></v-text-field>
                     </div>
                     <v-text-field v-model="answer" :rules="answerRules" label="Answer" required></v-text-field>
-                    <v-text-field v-model="password" name="password" label="Please Enter your Password to save the changes" type="password" required></v-text-field>
-                    <credit-card v-if="title==='Member'"></credit-card>
+                    <v-text-field v-if="toHide" v-model="password" name="password" label="Please Enter your Password to save the changes" type="password" required></v-text-field>
                     <div class="error" v-html="error"></div>
                     <div class="success" v-html="success"></div>
-                    <v-checkbox v-model="checkbox" :rules="[v => !!v || 'You must agree to continue!']" label="Do you agree?" required></v-checkbox>
-                    <v-btn class="blue darken-3" dark :disabled="!valid"  @click="saveChanges">Save changes</v-btn>
+                    <v-checkbox v-if="toHide" v-model="checkbox" :rules="[v => !!v || 'You must agree to continue!']" label="Do you agree?" required></v-checkbox>
+                    <v-btn class="blue darken-3" v-if="toHide" dark :disabled="!valid" @click="saveChanges">Save changes</v-btn>
                 </v-form>
             </v-card-text>
-        </slot>
+    </div>
+    <div v-if="title==='Member'" slot="secondForm">
+                <credit-card/>
+                <br><br>
+    </div>
     </Panel>
 </template>
 
@@ -29,7 +37,7 @@
 import AuthenticationService from './../services/AuthenticationService'
 import Panel from '@/components/Panel'
 import UserProfile from "./../services/UserProfile"
-import CreditCard from "./../alerts/CreditCard"
+import CreditCard from "./CreditCard"
 export default {
    name: 'Profile',
   data () {
@@ -46,6 +54,7 @@ export default {
         success: null,
         valid: true,
         spacer:160,
+        toHide: false,
         selectRules: [
                 v => !!v || 'Please select a valid question to recover the password',
             ],

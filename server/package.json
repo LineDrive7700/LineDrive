@@ -20,6 +20,7 @@
     "mysql": "^2.15.0",
     "mysql2": "^1.5.3",
     "nodemon": "^1.17.5",
+    "router-express": "^1.5.2",
     "sequelize": "^4.38.0",
     "sqlite3": "^4.0.1"
   }

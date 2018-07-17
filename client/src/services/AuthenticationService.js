@@ -3,24 +3,24 @@ import Api from './Api'
 export default {
     registerCoach (credentials){
         console.log(credentials)
-        return Api().post('registerCoach',credentials)
+        return Api().post('/coach/registerCoach',credentials)
     },
     loginCoach (credentials){
         console.log(credentials)
-        return Api().post('loginCoach',credentials)
+        return Api().post('/coach/loginCoach',credentials)
     },
     loginMember (credentials){
-        return Api().post('loginMember',credentials)
+        return Api().post('member/loginMember',credentials)
     },
-    forgotPassCoach (credentials){
-        return Api().post('forgotPassCoach',credentials)
+    forgotPass (credentials){
+        return Api().post('/coach/forgotPassCoach',credentials)
     },
     profile (credentials){
-        return Api().post('profile',credentials)
+        return Api().post('/coach/profile',credentials)
     },
     registerMember (credentials){
         console.log(credentials)
-        return Api().post('registerMember',credentials)
+        return Api().post('/member/registerMember',credentials)
     },
 }
 
